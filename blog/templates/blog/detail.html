@@ -1,0 +1,86 @@
+{% extends 'blog/index.html' %}
+<!------标题------->
+{% block title %}
+    <title>{{ article_detail.title }}</title>
+{% endblock %}
+<!-------正文---------->
+{% block main %}
+<div class="content-wrap">
+<div class="content">
+  <header class="article-header">
+	<h1 class="article-title">{{ article_detail.title }}</h1>
+	<div class="article-meta">
+        <span class="item article-meta-time">
+          <i class="glyphicon glyphicon-time"></i> {{ article_detail.create_time }}
+	  </span>
+        <span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" >
+        <i class="glyphicon glyphicon-eye-open"></i> {{ article_detail.visiter }}</span>
+        <span class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom"  data-original-title="评论量">
+        <i class="glyphicon glyphicon-comment"></i> {{ article_detail.comment_set.count }}</span> </div>
+  </header>
+  <article class="article-content">
+      <p>{{ article_detail.content|safe }}</p>
+	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+
+		  <script>    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "32" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=0.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </article>
+ <!------------------------文章标签-------------------->
+
+  <div class="article-tags">标签:
+        {% for tag in article_detail.tags.all %}
+      <a href="{% url 'blog:tag' tag_id=tag.id %}" rel="tag" >{{ tag.name }}</a>
+      {% endfor %}
+	</div>
+
+  <div class="relates">
+	<div class="title">
+	  <h3>相关推荐</h3>
+	</div>
+	<ul>
+	  <li><a href="#" title="" ></a></li>
+
+	</ul>
+  </div>
+  <div class="title" id="comment">
+	<h3>评论</h3>
+  </div>
+  <div id="respond">
+		<form id="comment-form" name="comment-form" action="{% url 'comments:article_comment' article_id=article_detail.id %}" method="POST">
+			<div class="comment">
+                {% csrf_token %}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                <div class="comment-box">
+
+                    {{ form.text }}
+                    {{ form.text.errors }}
+
+					<div class="comment-ctrl">
+						<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
+						<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>
+						<button type="submit" name="comment-submit" id="comment-submit" tabindex="4">评论</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+<!---评论------>
+  <div id="postcomments">
+      {% for comment in comment_list %}
+	<ol id="comment_list" class="commentlist">
+	<li class="comment-content"><span class="comment-f">#{{ comment.id }}</span><div class="comment-main"><p>
+        <a class="address" href="#" rel="nofollow" target="_blank">{{ comment.name }}</a>
+        <span class="time">{{ comment.created_time }}</span>
+        <br>{{comment.text}}</p></div>
+    </li>
+    </ol>
+      {% endfor %}
+  </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>搜索页面</title>
+{% endblock %}
+{% block article %}
+    {% if error_msg %}
+      <h3>{{ error_msg }}</h3>
+    {% endif %}
+{% for article in article_list %}
+  <article class="excerpt excerpt-1" style="">
+  <a class="focus" href="#"  target="_blank" ><img class="thumb"  src="{% static 'blog/images/2.jpg' %}" alt="" style="display: inline;"></a>
+		<header>
+			<h2><a href="{% url 'blog:details' article.id %}" title="文章标题" target="_blank" >{{ article.title }}</a>
+			</h2>
+		</header>
+		<p class="meta">
+			<time class="time"><i class="glyphicon glyphicon-time"></i>{{ article.create_time }}</time>
+			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ article.visiter }}</span>
+            <span><i class="glyphicon glyphicon-comment"></i>{{article.comment_set.count }}</span>
+		</p>
+		<p class="note">{{ article.excerpt }}</p>
+	</article>
+{% empty %}
+    <h3><div class="no-article">没有符合条件的文章</div></h3>
+{% endfor %}
+
+{% endblock %}

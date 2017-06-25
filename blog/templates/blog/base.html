@@ -1,0 +1,291 @@
+{% load staticfiles %}
+
+<!--自定义模板标签-->
+{% load blog_tags %}
+<!doctype html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{ site_desc }}"/>
+<meta name="keywords" content="{{ site_desc }}"/>
+{% block title %}
+<title>Rainy Blog</title>
+{% endblock %}
+
+<link rel="stylesheet" href="{% static 'blog/css/prism.css' %}">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/nprogress.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/css/font-awesome.min.css' %}">
+<link rel="apple-touch-icon-precomposed" href="{% static 'blog/images/icon.png' %}">
+<link rel="shortcut icon" href="{% static 'blog/images/favicon.ico' %}">
+<script src="{% static 'blog/js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'blog/js/nprogress.js' %}"></script>
+<script src="{% static 'blog/js/jquery.lazyload.min.js' %}"></script>
+<!--[if gte IE 9]>
+  <script src="{% static 'blog/js/jquery-1.11.1.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'blog/js/html5shiv.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'blog/js/respond.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'blog/js/selectivizr-min.js' %}" type="text/javascript"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script>window.location.href='upgrade-browser.html';</script>
+<![endif]-->
+</head>
+<body class="user-select">
+{% block top %}
+<script src="{% static 'ckeditor/ckeditor/plugins/prism/lib/prism/prism_patched.min.js' %}"></script>
+<header class="header">
+<nav class="navbar navbar-default" id="navbar">
+<div class="container">
+  <div class="header-topbar hidden-xs link-border">
+	<ul class="site-nav topmenu">
+		<li><a href="#" rel="login" >登录</a></li>
+        <li><a href="#" rel="register" >注册</a></li>
+		<li><a href="{% url 'rss' %}" title="RSS订阅" >
+			<i class="fa fa-rss">
+			</i> RSS订阅
+		</a></li>
+	</ul>
+			 勤记录 懂分享</div>
+  <div class="navbar-header">
+	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+	<h1 class="logo hvr-bounce-in"><a href="{% url 'blog:index' %}" title="导航首页图片"><img src="{% static 'blog/images/4.jpg' %}" alt="Rainy"></a></h1>
+  </div>
+  <div class="collapse navbar-collapse" id="header-navbar">
+	<form class="navbar-form visible-xs" action="{% url 'blog:search' %}" method="post">
+	  <div class="input-group">
+          {% csrf_token %}
+		<input type="text" name="keyword" class="form-control" placeholder="请输入关键字" maxlength="20" autocomplete="off">
+		<span class="input-group-btn">
+		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		</span> </div>
+	</form>
+	<ul class="nav navbar-nav navbar-right">
+	  <li><a data-cont="Rainy博客" title="Rainy博客" href="{% url 'blog:index' %}">首页</a></li>
+        {% get_categorys as nav_category_list %}
+        {% for  nav_category  in nav_category_list %}
+	  <li><a data-cont="分类页" title="分类页" href="{%url 'blog:categorys' category_id=nav_category.id %}">{{ nav_category.name }}</a></li>
+        {% endfor %}
+    <li><a data-cont="GitHub" title="GitHub" href="https://github.com/black1990">GitHub</a></li>
+	</ul>
+  </div>
+</div>
+</nav>
+</header>
+{% endblock %}
+<section class="container">
+{% block  main %}
+<div class="content-wrap">
+<div class="content">
+  <div id="focusslide" class="carousel slide" data-ride="carousel">
+	<ol class="carousel-indicators">
+	  <li data-target="#focusslide" data-slide-to="0" class="active"></li>
+	  <li data-target="#focusslide" data-slide-to="1"></li>
+	</ol>
+      <!---轮播---->
+	<div class="carousel-inner" role="listbox">
+	  <div class="item active">
+	  <a href="#" target="_blank" title="测试图片" >
+	  <img src="{% static 'blog/images/f.jpg' %}" alt="测试图片" class="img-responsive"></a>
+	  </div>
+	  <div class="item">
+	  <a href="#" target="_blank" title="测试图片" >
+	  <img src="{% static 'blog/images/j.jpg' %}" alt="测试图片" class="img-responsive"></a>
+	  </div>
+	</div>
+
+	<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> </div>
+    <!---轮播结束--->
+
+  <div class="title">
+	<h3>最新发布</h3>
+	<div class="more">
+			<a href="#" title="MZ-NetBlog主题" >MZ-NetBlog主题</a>
+			<a href="#" title="IT技术笔记" >IT技术笔记</a>
+			<a href="#" title="源码分享" >源码分享</a>
+			<a href="#" title="资讯分享" >资讯分享</a>
+		</div>
+  </div>
+<!--------------------------------文章列表--------------------------->
+{% block article %}
+{% for article in article_list %}
+  <article class="excerpt excerpt-1" style="">
+  <a class="focus" href="#"  target="_blank" ><img class="thumb"  src="{% static 'blog/images/2.jpg' %}" alt="" style="display: inline;"></a>
+		<header>
+			<h2><a href="{% url 'blog:details' article.id %}" title="文章标题" target="_blank" >{{ article.title }}</a>
+			</h2>
+		</header>
+		<p class="meta">
+			<time class="time"><i class="glyphicon glyphicon-time"></i>{{ article.create_time }}</time>
+			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ article.visiter }}</span>
+            <span><i class="glyphicon glyphicon-comment"></i>{{article.comment_set.count }}</span>
+		</p>
+		<p class="note">{{ article.excerpt }}</p>
+	</article>
+{% empty %}
+    <div class="no-article">还没发布文章</div>
+{% endfor %}
+
+{% endblock %}
+<!---------------------文章结束------------------------>
+<!-------------------分页------------------------------>
+<hr>
+<div style="text-align:center ">
+    <h3>
+       {% if is_paginated %}
+      {% if first %}
+                <a href="?page=1">1</a>
+            {% endif %}
+            {% if left %}
+                {% if left_has_more %}
+                    <span>...</span>
+                {% endif %}
+                {% for i in left %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                {% endfor %}
+            {% endif %}
+            <a href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
+            {% if right %}
+                {% for i in right %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                {% endfor %}
+                {% if right_has_more %}
+                    <span>...</span>
+                {% endif %}
+            {% endif %}
+            {% if last %}
+                <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                <span>>></span>
+                </a>
+            {% endif %}
+    {% endif %}
+</h3>
+</div>
+<!-----------------------------分页结束--------------------->
+</div>
+</div>
+{% endblock %}
+
+<aside class="sidebar">
+{% block righit_top %}
+<div class="fixed">
+
+  <div class="widget widget-tabs">
+	<ul class="nav nav-tabs" role="tablist">
+	  <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" >统计信息</a></li>
+	  <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" >联系博主</a></li>
+	</ul>
+	<div class="tab-content">
+	  <div role="tabpanel" class="tab-pane contact active" id="notice">
+		<h2>日志总数:
+			  888篇
+		  </h2>
+		  <h2>网站运行:
+		  <span id="sitetime">88天 </span></h2>
+	  </div>
+		<div role="tabpanel" class="tab-pane contact" id="contact">
+		  <h2>
+			  <a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="">QQ:564312974</a>
+		  </h2>
+		  <h2>
+		  <a href="" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" >Email:564312974@qq.com</a></h2>
+	  </div>
+	</div>
+  </div>
+{% endblock %}
+<!---------------------搜索------------------------------------>
+  <div class="widget widget_search">
+	<form class="navbar-form" action="{% url 'blog:search' %}" method="get">
+	  <div class="input-group">
+          {% csrf_token %}
+		<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+		<span class="input-group-btn">
+		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		</span> </div>
+	</form>
+  </div>
+
+</div>
+
+<!---------------------------最近文章-------------------------------->
+<div class="widget widget_hot">
+	  <h3>最新文章</h3>
+	  <ul>
+          {% get_recent_article as rencent_articles %}
+          {% for new_article in rencent_articles %}
+			<li><a title="右边最新文章" href="{{ new_article.get_absloute_url }}" ><span class="thumbnail">
+				<img class="thumb" data-original="images/2.jpg" src="{% static 'blog/images/2.jpg' %}" alt="" style="display: block;">
+			</span><span class="text">{{ new_article.title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+				{{ new_article.create_time }}
+			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>{{ new_article.visiter }}</span></a></li>
+            {% endfor %}
+	  </ul>
+ </div>
+<!----------------------------归档-------------------------------->
+ <div class="widget widget_sentence">
+  <h3 class="widget-title">归档</h3>
+
+  {% achives as date_list %}
+  <ul>
+     {% for date in date_list %}
+    <li>
+      <span>
+          <h3><a href="{% url 'blog:achives' year=date.year month=date.month %}">{{ date.year }} 年
+    {{ date.month }} 月</a>
+              </h3>
+      </span>
+    </li>
+    {% empty %}
+    暂无归档！
+    {% endfor %}
+  </ul>
+ </div>
+<!---------------------------------分类--------------------------->
+ <div class="widget widget_sentence">
+	<h3>分类</h3>
+     {% get_categorys as category_list %}
+         <ul>
+         {% for category in category_list %}
+             <li>
+             <h3>
+<a href="{% url 'blog:categorys' category.id %}">{{ category.name }}({{ category.category_article_count }})</a>
+             </h3>
+             </li>
+         </ul>
+         {% empty %}
+         暂无分类
+         {% endfor %}
+ </div>
+<!-----------------------友情链接-------------------------->
+<div class="widget widget_sentence">
+  <h3>友情链接</h3>
+  <div class="widget-sentence-link">
+	<a href="#" title="友情链接" target="_blank" >友情链接</a>&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+</aside>
+</section>
+
+
+<footer class="footer">
+<div class="container">
+<p>Copyright &copy; 2017.Rainy All rights reserved.<a target="_blank" href="http://rainysun.site">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+</div>
+<div id="gotop"><a class="gotop"></a></div>
+</footer>
+<script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'blog/js/jquery.ias.js' %}"></script>
+<script src="{% static 'blog/js/scripts.js' %}"></script>
+</body>
+</html>
