@@ -1,3 +1,4 @@
+
 """
 Django settings for blogproject project.
 
@@ -23,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=ebhob%)e*$m1)4f0bbd6c(z9al*hj_#lkl*2x8sq90touy0^p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','www.rainysun.site','rainysun.site']
 
 
 # Application definition
@@ -129,8 +130,8 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 CKEDITOR_UPLOAD_PATH = "upload/"
-CKEDITOR_IMAGE_BACKEND = 'pillow'#生成缩略图
-CKEDITOR_ALLOW_NONIMAGE_FILES = False#禁止上传图片以外的文件
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono',
@@ -148,7 +149,7 @@ CKEDITOR_CONFIGS = {
             ['TextColor', 'BGColor'],
             ['Undo', 'Redo', '-','Preview', '-','Save', 'Smiley'],
             ['RemoveFormat', 'Source','Flash','Form','Maximize'],
-# 将Codesnippet按钮加入到编辑器里
+# 将Codesnippet按钮加入到编辑器里,如果没有下载代码高亮插件，将包含codesnippet删除即可
             ['CodeSnippet',]
         ],
 # 非官方默认的插件需要在这里注册
