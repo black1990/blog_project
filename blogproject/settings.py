@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=ebhob%)e*$m1)4f0bbd6c(z9al*hj_#lkl*2x8sq90touy0^p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','rainysun.site']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -119,12 +119,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'blog/static')
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 #media files(ckeditor)
 MEDIA_URL='/media/'
