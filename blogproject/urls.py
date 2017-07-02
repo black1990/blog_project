@@ -23,5 +23,7 @@ urlpatterns = [
     url(r'',include('blog.blog_urls',namespace='blog')),
     url(r'',include('comments.comment_urls',namespace='comments')),
     url(r'',include('ckeditor_uploader.urls')),
-    url(r'all/rss/$',ArticleRssFeed(),name='rss')
+    url(r'all/rss/$',ArticleRssFeed(),name='rss'),
+    url(r'^',include('django.contrib.auth.urls')),#django自带的登录 注销 修改密码等功能
+    url(r'users/',include('users.regist_url',namespace='users'))
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

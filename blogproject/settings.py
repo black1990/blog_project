@@ -24,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=ebhob%)e*$m1)4f0bbd6c(z9al*hj_#lkl*2x8sq90touy0^p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','www.rainysun.site','rainysun.site']
-
+#ALLOWED_HOSTS = ['127.0.0.1','localhost','www.rainysun.site','rainysun.site']
+ALLOWED_HOSTS=[]
 
 # Application definition
 
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'blog',
     'comments',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'users',
 
 
 ]
@@ -76,14 +77,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blogproject.wsgi.application'
 
+#自定义用户模型
+AUTH_USER_MODEL='users.User'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blogdb',
+        'USER':'root',
+        'PASSWORD':'root',
+        'HOST':'127.0.0.1',
+        'PORT':'3308',
     }
 }
 
@@ -118,7 +125,10 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
+
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -130,7 +140,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 CKEDITOR_UPLOAD_PATH = "upload/"
-CKEDITOR_IMAGE_BACKEND = 'pillow'
+#CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_CONFIGS = {
     'default': {

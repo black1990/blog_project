@@ -44,9 +44,23 @@
 <nav class="navbar navbar-default" id="navbar">
 <div class="container">
   <div class="header-topbar hidden-xs link-border">
+      <!--判断用户是否已登录--->
+    <!-- Django 的 auth 应用为我们设置了模板常量，所以在任何模板中都可以引用 {{ user }}。
+    此外，我们之前提过的 django.contrib.auth.middleware.AuthenticationMiddleware
+    为所有的请求 request 绑定了一个 user 属性。所以在模板中引用 {{ user }} 和 {{ request.user }} 是等价。-->
 	<ul class="site-nav topmenu">
-		<li><a href="#" rel="login" >登录</a></li>
-        <li><a href="#" rel="register" >注册</a></li>
+        {% if user.is_authenticated %}
+        <li>
+            <a  href="#">Hi: {{ user.username }}</a>
+        </li>
+        <li><a href="{% url 'logout' %}?next={{ request.path }}" rel="logout" >注销</a></li>
+        <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
+        {% else %}
+            <!--给登录传递一个当前请求的url，这样就能在登录界面获取页面的next值-->
+		<li><a href="{% url 'login' %}?next={{ request.path }}" rel="login" >登录</a></li>
+             <!--给注册传递一个当前请求的url，这样就能在登录界面获取页面的next值-->
+        <li><a href="{% url 'users:register' %}?next={{ request.path }}" rel="register" >注册</a></li>
+        {% endif %}
 		<li><a href="{% url 'rss' %}" title="RSS订阅" >
 			<i class="fa fa-rss">
 			</i> RSS订阅
@@ -188,11 +202,10 @@
 	</ul>
 	<div class="tab-content">
 	  <div role="tabpanel" class="tab-pane contact active" id="notice">
-		<h2>日志总数:
-			  888篇
+		<h2>本博客仅供交流学习
 		  </h2>
-		  <h2>网站运行:
-		  <span id="sitetime">88天 </span></h2>
+		  <h2>有问题请联系博主ヾ(๑╹◡╹)ﾉ"</h2>
+
 	  </div>
 		<div role="tabpanel" class="tab-pane contact" id="contact">
 		  <h2>
@@ -280,7 +293,7 @@
 
 <footer class="footer">
 <div class="container">
-<p>Copyright &copy; 2017.Rainy All rights reserved.<a target="_blank" href="http://rainysun.site">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+<p>Copyright &copy; 2017.Rainy All rights reserved.<a target="_blank" href="http://rainysun.site">Powered by Django</a></p>
 </div>
 <div id="gotop"><a class="gotop"></a></div>
 </footer>

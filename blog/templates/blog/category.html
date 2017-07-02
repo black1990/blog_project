@@ -75,14 +75,15 @@
       {% get_tags as tag_list %}
 	<h3>标签云</h3>
 	<div class="widget-sentence-content">
-        {% for tag  in tag_list %}
-		<ul class="plinks ptags">
-			<li><a href="{% url 'blog:tag' tag_id=tag.pk %}" title="标签云" draggable="false">{{ tag.name }} <span class="badge">{{ tag.tag_article_count }}</span></a></li>
 
-		</ul>
+		<ul class="plinks ptags">
+        {% for tag  in tag_list %}
+			<li><a href="{% url 'blog:tag' tag_id=tag.pk %}" title="标签云" draggable="false">{{ tag.name }} <span class="badge">{{ tag.tag_article_count }}</span></a></li>
         {% empty %}
             暂无标签!
         {% endfor %}
+		</ul>
+
 	</div>
   </div>
 {% endblock %}
